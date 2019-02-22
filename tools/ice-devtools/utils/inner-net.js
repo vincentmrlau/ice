@@ -2,6 +2,9 @@
 const rp = require('request-promise-native');
 const debug = require('debug')('ice:util:innernet');
 
+const NPM_RIGISTY = 'http://registry.npmjs.org';
+const TNPM_RIGISTY = 'http://registry.npm.alibaba-inc.com';
+
 const INNER_NET_IMG_URL =
   'http://img.daily.taobaocdn.net/tps/TB1T7AtX.w7LKJjyzdKXXaShXXa-2-4.jpg';
 
@@ -27,9 +30,9 @@ function isTnpm(npmname) {
 
 function getRegistry(npmname) {
   if (isTnpm(npmname)) {
-    return 'http://registry.npm.alibaba-inc.com';
+    return TNPM_RIGISTY;
   }
-  return 'http://registry.npmjs.com';
+  return NPM_RIGISTY;
 }
 
 function getNpmScope(npmname) {
@@ -39,6 +42,8 @@ function getNpmScope(npmname) {
 }
 
 module.exports = {
+  NPM_RIGISTY,
+  TNPM_RIGISTY,
   isInnerNet,
   isTnpm,
   getNpmScope,

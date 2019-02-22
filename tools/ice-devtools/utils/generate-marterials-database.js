@@ -8,6 +8,7 @@ const uppercamelcase = require('uppercamelcase');
 
 const depAnalyze = require('./dep-analyze');
 const npm = require('./npm');
+const innerNet = require('./inner-net');
 
 function generatePartciple(payload, source) {
   if (process.env.PARTICIPLE) {
@@ -53,7 +54,7 @@ function generateBlocks(files, SPACE, type, done) {
 
     const registry =
       (pkg.publishConfig && pkg.publishConfig.registry) ||
-      'http://registry.npmjs.com';
+      innerNet.NPM_RIGISTY;
 
     const payload = {
       // (必)英文名
@@ -203,7 +204,7 @@ function generateScaffolds(files, SPACE, done) {
 
     const registry =
       (pkg.publishConfig && pkg.publishConfig.registry) ||
-      'http://registry.npmjs.com';
+      innerNet.NPM_RIGISTY;
 
     const screenshot = pkg.scaffoldConfig.screenshot || pkg.scaffoldConfig.snapshot;
     const payload = {
@@ -353,31 +354,6 @@ function gatherScaffolds(pattern, SPACE) {
         }
       }
     );
-  });
-}
-
-/**
- * 从 npm 源补充字段
- * @param {*} npm npm 名
- * @param {*} version 版本号
- * @param {*} registry
- * @param {Object} appender 需要补充的字段, key 是返回的字段, 对应的 value 是 registry 返回的字段
- */
-function appendFieldFromNpm(item) {
-  const registry = 'http://registry.npmjs.com/';
-  const { npm, version } = item;
-  return npm.getNpmInfo(npm).then((body) => {
-    const latestVersionBody = body.versions[version];
-    if (!latestVersionBody) {
-      // check version is not published
-      throw new Error(`${npm}@${version} is not published at ${registry}`);
-    }
-    const TIMEFMT = 'YYYY-MM-DD HH:mm';
-    return Object.assign({}, item, {
-      createdTime: moment(body.time.created).format(TIMEFMT),
-      publishTime: moment(latestVersionBody.publish_time).format(TIMEFMT),
-      keywords: latestVersionBody.keywords || [],
-    });
   });
 }
 

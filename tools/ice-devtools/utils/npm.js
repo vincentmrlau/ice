@@ -12,9 +12,10 @@ function getNpmInfo(npm) {
   if (cacheData[npm]) {
     return Promise.resolve(cacheData[npm]);
   }
-  const isTnpm = innerNet.isTnpm(npm);
-  debug('npm info: %j', {isTnpm, npm});
-  const url = isTnpm ? `http://registry.npm.alibaba-inc.com/${npm}` : `http://registry.npmjs.com/${npm}`;
+
+  debug('npm info: %j', npm);
+
+  const url = innerNet.getRegistry(npm) + '/' + npm;
   debug('npm url: %s', url);
   return new Promise(function (resolve, reject) {
     request(

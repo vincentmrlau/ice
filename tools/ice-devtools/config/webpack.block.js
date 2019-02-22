@@ -12,13 +12,13 @@ module.exports = function getWebpacksConfig(cwd, type = 'react') {
   const config = getWebpackBaseConfig(cwd);
 
   // 增加入口文件  index.js
-  const entry = path.join(cwd, 'src/index.js');
+  const entry = '../src/index.js';
   const hbsTemplatePath = path.join(
     __dirname,
     `../template/preview/block-${type}-index.js.hbs`
   );
 
-  const tempPath = getTempPath();
+  const tempPath = getTempPath(cwd, './.tmp');
   const jsPath = path.join(tempPath, `block-${type}-index.js`);
   debug('%j', { entry, jsPath });
   const hbsTemplateContent = fs.readFileSync(hbsTemplatePath, 'utf-8');
