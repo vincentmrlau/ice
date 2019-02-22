@@ -87,7 +87,7 @@ async function getArgvOptions(cwd, templateName, templateType, ...options) {
 
   if (getLocalTemplate(templateName)) {
     require(`./${templateType}/add`)(
-      null,
+      templateType,
       cwd,
       { 
         hasArgvOpts: true,

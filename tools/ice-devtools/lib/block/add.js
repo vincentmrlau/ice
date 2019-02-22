@@ -20,17 +20,17 @@ const generate = require('../../utils/generate');
  */
 module.exports = async function addBlock(type, cwd, opt, ...argvOpts) {
   if (opt.hasArgvOpts) {
-    await execArgv(cwd, opt, ...argvOpts);
+    await execArgv(type, cwd, opt, ...argvOpts);
   } else {
     await execAsk(type, cwd, opt, ...argvOpts);
   }
 };
 
-async function execArgv(cwd, opt, ...argvOpts) {
+async function execArgv(type, cwd, opt, ...argvOpts) {
   const blockName = await getBlockName();
   const blockNpmName = await getBlockNpmName(blockName);
   const blockSource = opt.templateSource;
-  const blockDest = path.join(cwd, blockName);
+  const blockDest = path.join(cwd, type + 's', blockName);
 
   if (exists(blockDest)) {
     logger.fatal(`${blockName} already exists`);

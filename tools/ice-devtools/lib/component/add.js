@@ -20,18 +20,19 @@ const generate = require('../../utils/generate');
  */
 module.exports = async function addComponent(type, cwd, opt, ...argvOpts) {
   if (opt.hasArgvOpts) {
-    await execArgv(cwd, ...argvOpts);
+    await execArgv(type, cwd, opt, ...argvOpts);
   } else {
     await execAsk(type, cwd, opt, ...argvOpts);
   }
 };
 
-async function execArgv(cwd, ...argvOpts) {
+async function execArgv(type, cwd, opt, ...argvOpts) {
   const prefix = getPrefix(cwd, argvOpts);
   const name = await getName(prefix);
   const npmName = await getNpmName(name, prefix);
-  const source = argvOpts[1];
-  const dest = path.join(cwd, name);
+  const source = opt.templateSource;
+
+  const dest = path.join(cwd, type + 's', name);
 
   if (exists(dest)) {
     logger.fatal(`${name} already exists`);
