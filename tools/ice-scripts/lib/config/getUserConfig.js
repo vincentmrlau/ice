@@ -8,12 +8,10 @@ const webpack = require('webpack');
 const log = require('../utils/log');
 
 // const jsonConfigFile = '.webpackrc';
-const jsConfigFile = '.webpackrc.js';
+const jsConfigFile = process.env['WEBPACKRC'] || '.webpackrc.js';
 
 module.exports = (opts = {}) => {
   const { cwd = process.cwd() } = opts;
-
-  // const webpackRCPath = path.resolve(cwd, jsonConfigFile);
   const webpackRCJSPath = path.resolve(cwd, jsConfigFile);
 
   const userConfig = {};

@@ -25,6 +25,7 @@ program
     /^(polyfill|runtime)$/,
     'polyfill'
   )
+  .option('--webpackrc <path>', '设置webpackrc.js的路径')
   .parse(process.argv);
 
 cliInstance.initByProgram(program);

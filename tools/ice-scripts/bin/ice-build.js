@@ -25,6 +25,7 @@ program
     '注入 babel 运行环境, Enum: polyfill|runtime',
     /^(polyfill|runtime)$/
   )
+  .option('--webpackrc <path>', '设置webpackrc.js的路径')
   .parse(process.argv);
 
 checkUpdater().then(() => {
